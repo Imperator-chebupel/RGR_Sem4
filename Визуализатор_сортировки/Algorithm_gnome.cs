@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Визуализатор_сортировки
 {
-    internal class Algorithm_gnome : ISort
+    internal class Algorithm_gnome //: ISort
     {
         public void Sort(double[] Array)
         {

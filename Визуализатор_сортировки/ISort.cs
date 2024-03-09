@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,16 @@ namespace Визуализатор_сортировки
 {
     public interface ISort
     {
-        void Sort(double[] Array);
+        //(int, int, double, double) Sort(double[] Array, int i);
+        //double[] Sort(double[] Array);
+
+        //List<double[]> Sort(double[] Array);
+
+        List<(int, int, double, double)> Sort(double[] Numbers);
+
+        //(int, int, double, double)[] Sort(double[] Array);
+
+        //void Sort(double[] Numbers);
+
     }
 }

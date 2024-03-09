@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Визуализатор_сортировки
 {
-    internal class Algorithm_insert : ISort
+    internal class Algorithm_insert //: ISort
     {/*
         double[] Numbers;
 

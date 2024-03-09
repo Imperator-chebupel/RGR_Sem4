@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -13,18 +17,20 @@ namespace Визуализатор_сортировки
 {
     public class Presenter
     {
-        public ISort Algorithm;
+        public ISort Algorithm = new Algorithm_bubble();//{ get; set; }
         private Random r = new Random();
 
         Chart Data = new Chart();
-        System.Windows.Forms.Label label_count = new System.Windows.Forms.Label();
-        System.Windows.Forms.Label label_speed = new System.Windows.Forms.Label();
-        System.Windows.Forms.Button Generate = new System.Windows.Forms.Button();
-        RichTextBox RCB = new RichTextBox();
-        System.Windows.Forms.TrackBar Trackbar = new System.Windows.Forms.TrackBar();
-        System.Windows.Forms.TrackBar Trackbar_ = new System.Windows.Forms.TrackBar();
-        CheckBox AlBubble = new CheckBox();
-        CheckBox AlInsert = new CheckBox();
+        private System.Windows.Forms.Label label_count { get; set; } = new System.Windows.Forms.Label();
+        private System.Windows.Forms.Label label_speed { get; set; } = new System.Windows.Forms.Label();
+        private System.Windows.Forms.Button Generate { get; set; } = new System.Windows.Forms.Button();
+        private RichTextBox RCB {get; set; } = new RichTextBox();
+        private System.Windows.Forms.TrackBar Trackbar { get; set; } = new System.Windows.Forms.TrackBar();
+        private System.Windows.Forms.TrackBar Trackbar_ { get; set; } = new System.Windows.Forms.TrackBar();
+        private CheckBox AlBubble = new CheckBox();
+        private CheckBox AlInsert = new CheckBox();
+
+        
 
         public CheckBox DrawCheckBox1()
         {
@@ -33,7 +39,11 @@ namespace Визуализатор_сортировки
             AlBubble.Checked= true;
             AlBubble.CheckedChanged += (sender, e) =>
             {
-                if (AlBubble.Checked)  AlInsert.Checked = false; 
+                if (AlBubble.Checked) 
+                {
+                    AlInsert.Checked = false;
+                    Algorithm = new Algorithm_bubble();
+                }
             };
 
             return AlBubble;
@@ -45,7 +55,11 @@ namespace Визуализатор_сортировки
             AlInsert.Location = new Point(600, 410);
             AlInsert.CheckedChanged += (sender, e) =>
             {
-                if (AlInsert.Checked) AlBubble.Checked = false;
+                if (AlInsert.Checked)
+                {
+                    AlBubble.Checked = false;
+                    //Algorithm = new Algorithm_insert();
+                }
             };
             return AlInsert;
         }
@@ -63,12 +77,12 @@ namespace Визуализатор_сортировки
             Trackbar.Location = new Point(10, 340);
             Trackbar.Size = new Size(500, 200);
             Trackbar.Minimum = 0;
-            Trackbar.Maximum = 10000;
+            Trackbar.Maximum = 500;
             Trackbar.ValueChanged += (sender, e) =>
             {
                 label_count.Text = "Количество: " + Trackbar.Value.ToString();
             };
-            Trackbar.TickFrequency = 250;
+            Trackbar.TickFrequency = 100;
             return Trackbar;
         }
 
@@ -90,18 +104,43 @@ namespace Визуализатор_сортировки
             Generate.Text = "Генерация чисел";
             Generate.Size = new Size(100, 50);
             Generate.Location = new Point(670, 10);
-            //this.Controls.Add(Generate);
             Generate.Click += (sender, e) =>
             {
                 RCB.Clear();
-                Data.Series[0].Points.Clear();
                 Start_work(Trackbar.Value);
                 RCB.Text += Return_String();
-                Array.Sort(Numbers);
+                Data.Series[0].Points.Clear();
+
+                //Data.Series[0].Points.DataBindY(Numbers);
+
+
+                double[] doubles= new double[] {0.9, 0.7 ,0.1, 0.99, 0.5 , 0.11 };
+                //Data.Series[0].Points.DataBindY(doubles);
+
+
+
+                //List<(int , int , double , double )> Path = Algorithm.Sort(Numbers);
                 for (int i = 0; i < Numbers.Length; i++)
                 {
                     Data.Series[0].Points.AddXY(i, Numbers[i]);
                 }
+                List<(int, int, double, double)> Path = Algorithm.Sort(Numbers);
+
+
+                foreach ((int, int, double, double) F in Path)
+                {
+                    Numbers[F.Item1] = F.Item3;
+                    Numbers[F.Item2] = F.Item4;
+                    Data.Series[0].Points.DataBindY(Numbers);
+                    Data.Update();
+                    Task.Delay(1).GetAwaiter().GetResult();
+                }
+                //Data.Series[0].Points.Clear();
+                for (int i = 0; i < Numbers.Length; i++)
+                {
+                    //Data.Series[0].Points.AddXY(i, Numbers[i]);
+                }
+
             };
             return Generate;
         }
@@ -113,8 +152,8 @@ namespace Визуализатор_сортировки
             Data.ChartAreas.Add(new ChartArea("area"));
 
             // Настройка типа диаграммы
-            Data.Series.Add(new Series("series"));
-            Data.Series["series"].ChartType = SeriesChartType.Column;
+            Data.Series.Add(new Series("Сортировка"));
+            Data.Series["Сортировка"].ChartType = SeriesChartType.Column;
             Data.Titles.Add("Сортировка");
 
 
@@ -157,13 +196,11 @@ namespace Визуализатор_сортировки
         {
             return (String.Join("\n", Numbers)); 
         }
-
+        /*
         public void Sort_numbers()
         {
-            for (int i = 0; i < Numbers.Length; i++)
-            {
-                Algorithm.Sort(Numbers);
-            }
-        }
+            //RCB.Text += "Я абрикос\n";//Algorithm.Sort(Numbers);
+            List<(int, int, double, double)> Path = Algorithm.Sort(Numbers);
+        }*/
     }
 }
