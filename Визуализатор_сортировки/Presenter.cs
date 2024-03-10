@@ -17,7 +17,7 @@ namespace Визуализатор_сортировки
 {
     public class Presenter
     {
-        public ISort Algorithm = new Algorithm_bubble();//{ get; set; }
+        public ISort Algorithm = new Algorithm_bubble();// = new Algorithm_choose();//Algorithm_insert();//Algorithm_gnome();//Algorithm_bubble();//{ get; set; }
         private Random r = new Random();
 
         Chart Data = new Chart();
@@ -25,24 +25,30 @@ namespace Визуализатор_сортировки
         private System.Windows.Forms.Label label_speed { get; set; } = new System.Windows.Forms.Label();
         private System.Windows.Forms.Button Generate { get; set; } = new System.Windows.Forms.Button();
         private RichTextBox RCB {get; set; } = new RichTextBox();
-        private System.Windows.Forms.TrackBar Trackbar { get; set; } = new System.Windows.Forms.TrackBar();
-        private System.Windows.Forms.TrackBar Trackbar_ { get; set; } = new System.Windows.Forms.TrackBar();
+        private System.Windows.Forms.TrackBar Trackbar1 { get; set; } = new System.Windows.Forms.TrackBar();
+        private System.Windows.Forms.TrackBar Trackbar2 { get; set; } = new System.Windows.Forms.TrackBar();
         private CheckBox AlBubble = new CheckBox();
-        private CheckBox AlInsert = new CheckBox();
+        private CheckBox AlChoose = new CheckBox();
+        private CheckBox AlGnome = new CheckBox();
+        private CheckBox AlComb = new CheckBox();
+        private int Index = 0, Iters;
 
-        
 
         public CheckBox DrawCheckBox1()
         {
             AlBubble.Enabled = true;
             AlBubble.Location = new Point(600, 380);
             AlBubble.Checked= true;
+            AlBubble.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AlBubble.CheckedChanged += (sender, e) =>
             {
                 if (AlBubble.Checked) 
                 {
-                    AlInsert.Checked = false;
+                    AlChoose.Checked = false;
+                    AlGnome.Checked = false;
+                    AlComb.Checked = false;
                     Algorithm = new Algorithm_bubble();
+                    Index = 0;
                 }
             };
 
@@ -51,52 +57,98 @@ namespace Визуализатор_сортировки
 
         public CheckBox DrawCheckBox2()
         {
-            AlInsert.Enabled = true;
-            AlInsert.Location = new Point(600, 410);
-            AlInsert.CheckedChanged += (sender, e) =>
+            AlChoose.Enabled = true;
+            AlChoose.Location = new Point(600, 410);
+            AlChoose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            AlChoose.CheckedChanged += (sender, e) =>
             {
-                if (AlInsert.Checked)
+                if (AlChoose.Checked)
                 {
                     AlBubble.Checked = false;
-                    //Algorithm = new Algorithm_insert();
+                    AlGnome.Checked = false;
+                    AlComb.Checked = false;
+                    Algorithm = new Algorithm_choose();
+                    Index = 1;
                 }
             };
-            return AlInsert;
+            return AlChoose;
         }
+
+        public CheckBox DrawCheckBox3()
+        {
+            AlComb.Enabled = true;
+            AlComb.Location = new Point(710, 380);
+            AlComb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            AlComb.CheckedChanged += (sender, e) =>
+            {
+                if (AlComb.Checked)
+                {
+                    AlBubble.Checked = false;
+                    AlChoose.Checked = false;
+                    AlGnome.Checked = false;
+                    Algorithm = new Algorithm_comb();
+                    Index = 2;
+                }
+            };
+            return AlComb;
+        }
+
+        public CheckBox DrawCheckBox4()
+        {
+            AlGnome.Enabled = true;
+            AlGnome.Location = new Point(710, 410);
+            AlGnome.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            AlGnome.CheckedChanged += (sender, e) =>
+            {
+                if (AlGnome.Checked)
+                {
+                    AlBubble.Checked = false;
+                    AlChoose.Checked = false;
+                    AlComb.Checked = false;
+                    Algorithm = new Algorithm_gnome();
+                    Index = 3;
+                }
+            };
+            return AlGnome;
+        }
+
 
 
         public RichTextBox DrawRichTextBox()
         {
             RCB.Location = new Point(520, 60);
             RCB.Size = new Size(250, 300);
+            RCB.Anchor =  AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
             return RCB;
         }
 
         public System.Windows.Forms.TrackBar DrawTrackBar_1()
         {
-            Trackbar.Location = new Point(10, 340);
-            Trackbar.Size = new Size(500, 200);
-            Trackbar.Minimum = 0;
-            Trackbar.Maximum = 500;
-            Trackbar.ValueChanged += (sender, e) =>
+            Trackbar1.Location = new Point(10, 340);
+            Trackbar1.Size = new Size(500, 200);
+            Trackbar1.Minimum = 0;
+            Trackbar1.Maximum = 500;
+            Trackbar1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+            Trackbar1.ValueChanged += (sender, e) =>
             {
-                label_count.Text = "Количество: " + Trackbar.Value.ToString();
+                label_count.Text = "Количество: " + Trackbar1.Value.ToString();
             };
-            Trackbar.TickFrequency = 100;
-            return Trackbar;
+            Trackbar1.TickFrequency = 100;
+            return Trackbar1;
         }
 
         public System.Windows.Forms.TrackBar DrawTrackBar_2()
         {
-            Trackbar_.Location = new Point(10, 400);
-            Trackbar_.Size = new Size(300, 200);
-            Trackbar_.Minimum = 0;
-            Trackbar_.Maximum = 1000;
-            Trackbar_.ValueChanged += (sender, e) =>
+            Trackbar2.Location = new Point(10, 400);
+            Trackbar2.Size = new Size(300, 200);
+            Trackbar2.Minimum = 0;
+            Trackbar2.Maximum = 1000;
+            Trackbar2.Anchor = AnchorStyles.Left |  AnchorStyles.Right | AnchorStyles.Bottom;
+            Trackbar2.ValueChanged += (sender, e) =>
             {
-                label_speed.Text = "Скорость (мс): " + Trackbar_.Value.ToString();
+                label_speed.Text = "Скорость (мс): " + Trackbar2.Value.ToString();
             };
-            return Trackbar_;
+            return Trackbar2;
         }
 
         public System.Windows.Forms.Button DrawButton()
@@ -104,42 +156,31 @@ namespace Визуализатор_сортировки
             Generate.Text = "Генерация чисел";
             Generate.Size = new Size(100, 50);
             Generate.Location = new Point(670, 10);
+            Generate.Anchor =  AnchorStyles.Right | AnchorStyles.Top;
             Generate.Click += (sender, e) =>
             {
-                RCB.Clear();
-                Start_work(Trackbar.Value);
-                RCB.Text += Return_String();
+                //RCB.Clear();
+                Start_work(Trackbar1.Value);
                 Data.Series[0].Points.Clear();
 
-                //Data.Series[0].Points.DataBindY(Numbers);
 
-
-                double[] doubles= new double[] {0.9, 0.7 ,0.1, 0.99, 0.5 , 0.11 };
-                //Data.Series[0].Points.DataBindY(doubles);
-
-
-
-                //List<(int , int , double , double )> Path = Algorithm.Sort(Numbers);
                 for (int i = 0; i < Numbers.Length; i++)
                 {
                     Data.Series[0].Points.AddXY(i, Numbers[i]);
                 }
                 List<(int, int, double, double)> Path = Algorithm.Sort(Numbers);
 
-
+                Iters = 0;
                 foreach ((int, int, double, double) F in Path)
                 {
+                    Iters++;
                     Numbers[F.Item1] = F.Item3;
                     Numbers[F.Item2] = F.Item4;
                     Data.Series[0].Points.DataBindY(Numbers);
                     Data.Update();
-                    Task.Delay(1).GetAwaiter().GetResult();
+                    Task.Delay(Trackbar2.Value).GetAwaiter().GetResult();
                 }
-                //Data.Series[0].Points.Clear();
-                for (int i = 0; i < Numbers.Length; i++)
-                {
-                    //Data.Series[0].Points.AddXY(i, Numbers[i]);
-                }
+                RCB.Text += "Сортировка " + What_Kind() +" на " + Trackbar1.Value + " элементов завершена за " +Iters + " итераций\n";
 
             };
             return Generate;
@@ -150,6 +191,7 @@ namespace Визуализатор_сортировки
             Data.Location = new Point(10, 10);
             Data.Size = new Size(500, 300);
             Data.ChartAreas.Add(new ChartArea("area"));
+            Data.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 
             // Настройка типа диаграммы
             Data.Series.Add(new Series("Сортировка"));
@@ -166,8 +208,9 @@ namespace Визуализатор_сортировки
         public System.Windows.Forms.Label DrawLabel1()
         {
             label_count.Size = new Size(150, 30);
+            label_count.Anchor = AnchorStyles.Top| AnchorStyles.Right;
             label_count.Location = new Point(520, 10);
-            label_count.Text = "Количество: " + Trackbar.Value.ToString();
+            label_count.Text = "Количество: " + Trackbar1.Value.ToString();
             return label_count;
         }
 
@@ -175,8 +218,9 @@ namespace Визуализатор_сортировки
         public System.Windows.Forms.Label DrawLabel2()
         {
             label_speed.Size = new Size(150, 20);
+            label_speed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label_speed.Location = new Point(520, 40);
-            label_speed.Text = "Скорость (мс): " + Trackbar_.Value.ToString();
+            label_speed.Text = "Скорость (мс): " + Trackbar2.Value.ToString();
             return label_speed;
         }
 
@@ -196,11 +240,21 @@ namespace Визуализатор_сортировки
         {
             return (String.Join("\n", Numbers)); 
         }
-        /*
-        public void Sort_numbers()
+
+        public string What_Kind()
         {
-            //RCB.Text += "Я абрикос\n";//Algorithm.Sort(Numbers);
-            List<(int, int, double, double)> Path = Algorithm.Sort(Numbers);
-        }*/
+            switch (Index) 
+            {
+                case 0:
+                    return "пузырьком";
+                case 1:
+                    return "выбором";
+                case 2:
+                    return "расчёской";
+                case 3:
+                    return "методом гнома";
+            }
+            return "";
+        }
     }
 }

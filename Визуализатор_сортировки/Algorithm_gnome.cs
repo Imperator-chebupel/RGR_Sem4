@@ -7,32 +7,40 @@ using System.Threading.Tasks;
 
 namespace Визуализатор_сортировки
 {
-    internal class Algorithm_gnome //: ISort
+    internal class Algorithm_gnome : ISort
     {
-        public void Sort(double[] Array)
+        public List<(int, int, double, double)> Sort(double[] Numbers)
         {
             int index = 0;
-
-            while (index < Array.Length)
+            List<(int, int, double, double)> To_Return = new List<(int, int, double, double)>();
+            double[] Numbers_ = new double[Numbers.Length];
+            for (int i = 0; i < Numbers_.Length; i++)
+            {
+                Numbers_[i] = Numbers[i];
+            }
+            while (index < Numbers_.Length)
             {
                 if (index == 0) 
                 {
                     index++;
                 }
 
-                if (Array[index] >= Array[index - 1])
+                if (Numbers_[index] >= Numbers_[index - 1])
                 {
                     index++;
                 }
                 else
                 {
-                    double temp = 0;
-                    temp = Array[index];
-                    Array[index] = Array[index - 1];
-                    Array[index - 1] = temp;
+                    double temp;
+                    temp = Numbers_[index];
+                    Numbers_[index] = Numbers_[index - 1];
+                    Numbers_[index - 1] = temp;
+                    var To_Write = (index, index -1, Numbers_[index], Numbers_[index -1]);
+                    To_Return.Add(To_Write);
                     index--;
                 }
             }
+            return To_Return;
         }
     }
 }

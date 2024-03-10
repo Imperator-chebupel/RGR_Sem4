@@ -23,7 +23,7 @@ namespace Визуализатор_сортировки
         RichTextBox RCB;
         TrackBar Trackbar;
         TrackBar Trackbar_;
-        CheckBox CB1, CB2;
+        CheckBox CB1, CB2, CB3, CB4;
         public MainForm(Presenter P_)
         {
             P=P_;
@@ -54,6 +54,12 @@ namespace Визуализатор_сортировки
 
             CB2 = P.DrawCheckBox2();
             this.Controls.Add(CB2);
+
+            CB3 = P.DrawCheckBox3();
+            this.Controls.Add(CB3);
+
+            CB4 = P.DrawCheckBox4();
+            this.Controls.Add(CB4);
 
             InitializeComponent();
         }
