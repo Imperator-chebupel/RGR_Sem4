@@ -17,7 +17,7 @@ namespace Визуализатор_сортировки
 {
     public class Presenter
     {
-        public ISort Algorithm = new Algorithm_bubble();// = new Algorithm_choose();//Algorithm_insert();//Algorithm_gnome();//Algorithm_bubble();//{ get; set; }
+        public ISort Algorithm = new Algorithm_bubble();
         private Random r = new Random();
 
         Chart Data = new Chart();
@@ -159,29 +159,7 @@ namespace Визуализатор_сортировки
             Generate.Anchor =  AnchorStyles.Right | AnchorStyles.Top;
             Generate.Click += (sender, e) =>
             {
-                //RCB.Clear();
-                Start_work(Trackbar1.Value);
-                Data.Series[0].Points.Clear();
-
-
-                for (int i = 0; i < Numbers.Length; i++)
-                {
-                    Data.Series[0].Points.AddXY(i, Numbers[i]);
-                }
-                List<(int, int, double, double)> Path = Algorithm.Sort(Numbers);
-
-                Iters = 0;
-                foreach ((int, int, double, double) F in Path)
-                {
-                    Iters++;
-                    Numbers[F.Item1] = F.Item3;
-                    Numbers[F.Item2] = F.Item4;
-                    Data.Series[0].Points.DataBindY(Numbers);
-                    Data.Update();
-                    Task.Delay(Trackbar2.Value).GetAwaiter().GetResult();
-                }
-                RCB.Text += "Сортировка " + What_Kind() +" на " + Trackbar1.Value + " элементов завершена за " +Iters + " итераций\n";
-
+                Work();
             };
             return Generate;
         }
@@ -240,6 +218,32 @@ namespace Визуализатор_сортировки
         {
             return (String.Join("\n", Numbers)); 
         }
+
+        public void Work()
+        {
+            Start_work(Trackbar1.Value);
+            Data.Series[0].Points.Clear();
+
+
+            for (int i = 0; i < Numbers.Length; i++)
+            {
+                Data.Series[0].Points.AddXY(i, Numbers[i]);
+            }
+            List<(int, int, double, double)> Path = Algorithm.Sort(Numbers);
+
+            Iters = 0;
+            foreach ((int, int, double, double) F in Path)
+            {
+                Iters++;
+                Numbers[F.Item1] = F.Item3;
+                Numbers[F.Item2] = F.Item4;
+                Data.Series[0].Points.DataBindY(Numbers);
+                Data.Update();
+                Task.Delay(Trackbar2.Value).GetAwaiter().GetResult();
+            }
+            RCB.Text += "Сортировка " + What_Kind() + " на " + Trackbar1.Value + " элементов завершена за " + Iters + " итераций\n";
+        }
+        
 
         public string What_Kind()
         {

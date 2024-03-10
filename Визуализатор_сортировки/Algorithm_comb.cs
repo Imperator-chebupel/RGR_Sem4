@@ -11,29 +11,6 @@ namespace Визуализатор_сортировки
 
         public List<(int, int, double, double)> Sort(double[] Numbers)
         {
-            //int temp;
-            //double Current;
-
-            //List<(int, int, double, double)> To_Return = new List<(int, int, double, double)>();
-            //double[] Numbers_ = new double[Numbers.Length];
-            //for (int i = 0; i < Numbers_.Length; i++)
-            //{
-            //    Numbers_[i] = Numbers[i];
-            //}
-
-
-            //for (int i = 1; i < Numbers_.Length; i++)
-            //{
-            //    temp = i - 1;
-            //    Current= Numbers_[i];
-            //    while (temp > 0 && Current < Numbers_[temp])
-            //    {
-            //        Numbers_[temp+1] = Numbers_[temp];
-            //        var To_Write = (temp+1, temp, Numbers_[temp+1], Numbers_[temp]);
-            //        To_Return.Add(To_Write);
-            //        temp--;
-            //    }
-            //}
             List<(int, int, double, double)> To_Return = new List<(int, int, double, double)>();
             double[] Numbers_ = new double[Numbers.Length];
             for (int i = 0; i < Numbers_.Length; i++)
