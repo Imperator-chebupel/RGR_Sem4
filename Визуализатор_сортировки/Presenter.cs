@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Визуализатор_сортировки
 {
@@ -23,6 +15,13 @@ namespace Визуализатор_сортировки
         Chart Data = new Chart();
         private System.Windows.Forms.Label label_count { get; set; } = new System.Windows.Forms.Label();
         private System.Windows.Forms.Label label_speed { get; set; } = new System.Windows.Forms.Label();
+
+        private System.Windows.Forms.Label label_Bubble { get; set; } = new System.Windows.Forms.Label();
+        private System.Windows.Forms.Label label_Choose { get; set; } = new System.Windows.Forms.Label();
+
+        private System.Windows.Forms.Label label_Comb { get; set; } = new System.Windows.Forms.Label();
+
+        private System.Windows.Forms.Label label_Gnome { get; set; } = new System.Windows.Forms.Label();
         private System.Windows.Forms.Button Generate { get; set; } = new System.Windows.Forms.Button();
         private RichTextBox RCB {get; set; } = new RichTextBox();
         private System.Windows.Forms.TrackBar Trackbar1 { get; set; } = new System.Windows.Forms.TrackBar();
@@ -37,7 +36,7 @@ namespace Визуализатор_сортировки
         public CheckBox DrawCheckBox1()
         {
             AlBubble.Enabled = true;
-            AlBubble.Location = new Point(600, 380);
+            AlBubble.Location = new Point(600, 350/*380*/);
             AlBubble.Checked= true;
             AlBubble.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AlBubble.CheckedChanged += (sender, e) =>
@@ -77,7 +76,7 @@ namespace Визуализатор_сортировки
         public CheckBox DrawCheckBox3()
         {
             AlComb.Enabled = true;
-            AlComb.Location = new Point(710, 380);
+            AlComb.Location = new Point(710, 350);
             AlComb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AlComb.CheckedChanged += (sender, e) =>
             {
@@ -117,7 +116,7 @@ namespace Визуализатор_сортировки
         public RichTextBox DrawRichTextBox()
         {
             RCB.Location = new Point(520, 60);
-            RCB.Size = new Size(250, 300);
+            RCB.Size = new Size(250, 250);
             RCB.Anchor =  AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
             return RCB;
         }
@@ -200,6 +199,42 @@ namespace Визуализатор_сортировки
             label_speed.Location = new Point(520, 40);
             label_speed.Text = "Скорость (мс): " + Trackbar2.Value.ToString();
             return label_speed;
+        }
+
+        public System.Windows.Forms.Label DrawLabel3()
+        {
+            label_Bubble.Size = new Size(70, 30);
+            label_Bubble.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label_Bubble.Location = new Point(575, 330);
+            label_Bubble.Text = "Пузырёк";
+            return label_Bubble;
+        }
+
+        public System.Windows.Forms.Label DrawLabel4()
+        {
+            label_Choose.Size = new Size(70, 30);
+            label_Choose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label_Choose.Location = new Point(580, 390);
+            label_Choose.Text = "Выбор";
+            return label_Choose;
+        }
+
+        public System.Windows.Forms.Label DrawLabel5()
+        {
+            label_Comb.Size = new Size(70, 30);
+            label_Comb.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label_Comb.Location = new Point(683, 330);
+            label_Comb.Text = "Расчёска";
+            return label_Comb;
+        }
+
+        public System.Windows.Forms.Label DrawLabel6()
+        {
+            label_Gnome.Size = new Size(70, 30);
+            label_Gnome.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label_Gnome.Location = new Point(697, 390);
+            label_Gnome.Text = "Гном";
+            return label_Gnome;
         }
 
 

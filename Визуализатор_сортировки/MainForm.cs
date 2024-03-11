@@ -16,50 +16,40 @@ namespace Визуализатор_сортировки
     public partial class MainForm : Form 
     {
         private Presenter P;
-        Chart Data = new Chart();
-        System.Windows.Forms.Label label_count;
-        System.Windows.Forms.Label label_speed;
-        System.Windows.Forms.Button Generate;
-        RichTextBox RCB;
-        TrackBar Trackbar;
-        TrackBar Trackbar_;
-        CheckBox CB1, CB2, CB3, CB4;
+
         public MainForm(Presenter P_)
         {
             P=P_;
 
-            Data = P.DrawChart();
-            this.Controls.Add(Data);
+            this.Controls.Add(P.DrawChart());
 
-            label_count = P.DrawLabel1();
-            this.Controls.Add(label_count);
+            this.Controls.Add(P.DrawLabel1());
 
-            label_speed = P.DrawLabel2();
-            this.Controls.Add(label_speed);
+            this.Controls.Add(P.DrawLabel2());
 
-            Generate = P.DrawButton();
-            this.Controls.Add(Generate);
+            this.Controls.Add(P.DrawButton());
 
-            RCB = P.DrawRichTextBox();
-            this.Controls.Add(RCB);
+            this.Controls.Add(P.DrawRichTextBox());
 
-            Trackbar = P.DrawTrackBar_1();
-            this.Controls.Add(Trackbar);
+            this.Controls.Add(P.DrawTrackBar_1());
 
-            Trackbar_ = P.DrawTrackBar_2();
-            this.Controls.Add(Trackbar_);
+            this.Controls.Add(P.DrawTrackBar_2());
 
-            CB1 = P.DrawCheckBox1();
-            this.Controls.Add(CB1);
+            this.Controls.Add(P.DrawCheckBox1());
 
-            CB2 = P.DrawCheckBox2();
-            this.Controls.Add(CB2);
+            this.Controls.Add(P.DrawCheckBox2());
 
-            CB3 = P.DrawCheckBox3();
-            this.Controls.Add(CB3);
+            this.Controls.Add(P.DrawCheckBox3());
 
-            CB4 = P.DrawCheckBox4();
-            this.Controls.Add(CB4);
+            this.Controls.Add(P.DrawCheckBox4());
+
+            this.Controls.Add(P.DrawLabel3());
+
+            this.Controls.Add(P.DrawLabel4());
+
+            this.Controls.Add(P.DrawLabel5());
+
+            this.Controls.Add(P.DrawLabel6());
 
             InitializeComponent();
         }
